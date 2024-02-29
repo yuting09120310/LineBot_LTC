@@ -1,0 +1,110 @@
+﻿@model LineBot.Models.ReservationRequest
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+    <h2>預約資訊表單</h2>
+    <form method="post" asp-action="Index">
+        <input type="hidden" asp-for="UserId" id="UserIdInput" />
+        <div class="mb-3">
+            <label asp-for="FullName" class="col-sm-3 col-form-label"></label>
+            <input asp-for="FullName" class="form-control" type="text" />
+            <span asp-validation-for="FullName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ServiceDate" class="col-sm-3 col-form-label"></label>
+            <input asp-for="ServiceDate" class="form-control" type="date" />
+            <span asp-validation-for="ServiceDate" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ServiceTime" class="col-sm-3 col-form-label"></label>
+            <input asp-for="ServiceTime" class="form-control" type="time" />
+            <span asp-validation-for="ServiceTime" class="text-danger"></span>
+        </div>
+
+
+        <div class="mb-3">
+            <label asp-for="PickupLocation" class="col-sm-3 col-form-label"></label>
+            <input asp-for="PickupLocation" class="form-control" type="text" />
+            <span asp-validation-for="PickupLocation" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DropOffLocation" class="col-sm-3 col-form-label"></label>
+            <input asp-for="DropOffLocation" class="form-control" type="text" />
+            <span asp-validation-for="DropOffLocation" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ReturnServiceTime" class="col-sm-3 col-form-label"></label>
+            <input asp-for="ReturnServiceTime" class="form-control" type="time" />
+            <span asp-validation-for="ReturnServiceTime" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="MedicalPurpose" class="col-sm-3 col-form-label"></label>
+            <input asp-for="MedicalPurpose" class="form-control" type="text" />
+            <span asp-validation-for="MedicalPurpose" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="AccompanyingPersons" class="col-sm-3 col-form-label"></label>
+            <input asp-for="AccompanyingPersons" class="form-control" type="number" />
+            <span asp-validation-for="AccompanyingPersons" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ContactTitle" class="col-sm-3 col-form-label"></label>
+            <input asp-for="ContactTitle" class="form-control" type="text" />
+            <span asp-validation-for="ContactTitle" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ContactPhoneNumber" class="col-sm-3 col-form-label"></label>
+            <input asp-for="ContactPhoneNumber" class="form-control" type="tel" />
+            <span asp-validation-for="ContactPhoneNumber" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ServiceType" class="col-sm-3 col-form-label"></label>
+            <input asp-for="ServiceType" class="form-control" type="text" />
+            <span asp-validation-for="ServiceType" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="LongTermCareQualification" class="col-sm-3 col-form-label"></label>
+            @Html.DropDownListFor(model => model.LongTermCareQualification, ViewBag.LongTermCareQualification as List<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+            <span asp-validation-for="LongTermCareQualification" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Notes" class="col-sm-3 col-form-label"></label>
+            <input asp-for="Notes" class="form-control" type="text" />
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">提交預約</button>
+    </form>
+</div>
+
+
+<script>
+    // 在頁面載入完成後執行
+    window.onload = function () {
+        // 獲取 URL 中的 UserId 參數值
+        var urlParams = new URLSearchParams(window.location.search);
+        var UserIdValue = urlParams.get('UserId');
+
+        // 設定 UserId 到隱藏的 input 中
+        document.getElementById("UserIdInput").value = UserIdValue;
+    };
+
+    function submitForm() {
+        // 提交表單
+        document.getElementById("myForm").submit();
+    }
+</script>
