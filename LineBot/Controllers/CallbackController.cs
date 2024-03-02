@@ -9,12 +9,14 @@ namespace LineBot.Controllers
     {
         private readonly Bot _bot;
         private readonly HttpContext _context;
+        private readonly string _webUrl;
 
 
-        public CallbackController(Bot bot, IHttpContextAccessor contextAccessor)
+        public CallbackController(Bot bot, IHttpContextAccessor contextAccessor, string webUrl)
         {
             _bot = bot;
-            _context = contextAccessor.HttpContext;
+            _context = contextAccessor.HttpContext!;
+            _webUrl = webUrl;
         }
 
 
@@ -83,7 +85,7 @@ namespace LineBot.Controllers
                 actions = new List<TemplateActionBase>() {
                 new UriAction() {
                     label = "看文章",
-                    uri = new Uri($"http://localhost:5145/Home/Index{queryString}")
+                    uri = new Uri($"{_webUrl}/LongTermCare/Create{queryString}")
                 }
             }
             };

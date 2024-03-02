@@ -15,7 +15,7 @@ namespace LineBot.Models
 
         [Required(ErrorMessage = "請輸入預約服務日期")]
         [Display(Name = "預約服務日期")]
-        public DateOnly ServiceDate { get; set; }
+        public DateTime ServiceDate { get; set; }
 
 
         [Required(ErrorMessage = "請輸入預約服務時間")]

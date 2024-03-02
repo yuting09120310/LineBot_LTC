@@ -1,4 +1,5 @@
 using isRock.LineBot;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +9,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
 
-// 添加服務配置
+// 注入Bot
+var channelAccessToken = builder.Configuration.GetConnectionString("channelAccessToken");
 builder.Services.AddSingleton<Bot>(provider =>
 {
-    var channelAccessToken = builder.Configuration.GetConnectionString("channelAccessToken");
     return new Bot(channelAccessToken);
 });
+
+// 注入網址
+var webUrl = builder.Configuration.GetConnectionString("WebUrl");
+builder.Services.AddSingleton<string>(provider =>
+{
+    return webUrl;
+});
+
 
 var app = builder.Build();
 

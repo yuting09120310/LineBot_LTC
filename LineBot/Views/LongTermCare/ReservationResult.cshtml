@@ -1,0 +1,50 @@
+﻿@{
+    var Message = TempData["Message"] as string;
+}
+
+<div class="container mt-5">
+    @{
+        if (Message.Contains("預約成功"))
+        {
+             <h2 class="text-center">預約成功</h2>
+            <p class="text-center mt-3">親愛的客戶您好，您的預約已受理。</p>
+        }
+        else
+        {
+            <h2 class="text-center">預約異常</h2>
+            <p class="text-center mt-3">請關閉此頁面，重新點擊Line預約。</p>
+        }
+    }
+    
+</div>
+
+
+@{
+    if (!string.IsNullOrEmpty(Message))
+    {
+        if (Message.Contains("預約成功"))
+        {
+            <script>
+                Swal.fire({
+                    position: 'center-center',
+                    icon: 'success',
+                    title: '@Message',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+        }
+        else
+        {
+            <script>
+                Swal.fire({
+                    position: 'center-center',
+                    icon: 'error',
+                    title: '@Message',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+        }
+    }
+}
