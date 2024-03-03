@@ -53,7 +53,7 @@ namespace LineBot.Controllers
             {
                 _bot.PushMessage(reservationRequest.UserId,
                     $@"預約完成，資料如下
-個案大名{reservationRequest.FullName}
+個案大名：{reservationRequest.FullName}
 預約服務日期：{reservationRequest.ServiceDate}
 預約服務時間：{reservationRequest.ServiceTime}
 上車地點：{reservationRequest.PickupLocation}
