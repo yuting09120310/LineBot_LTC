@@ -1,7 +1,9 @@
 ﻿using isRock.LineBot;
+using LineBot.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Web;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LineBot.Controllers
 {
@@ -10,13 +12,15 @@ namespace LineBot.Controllers
         private readonly Bot _bot;
         private readonly HttpContext _context;
         private readonly string _webUrl;
+        private readonly IGoogleSheets _googleSheets;
 
 
-        public CallbackController(Bot bot, IHttpContextAccessor contextAccessor, string webUrl)
+        public CallbackController(Bot bot, IHttpContextAccessor contextAccessor, string webUrl, IGoogleSheets googleSheets)
         {
             _bot = bot;
             _context = contextAccessor.HttpContext!;
             _webUrl = webUrl;
+            _googleSheets = googleSheets;
         }
 
 
@@ -39,12 +43,11 @@ namespace LineBot.Controllers
                     if (userMsg == "預約")
                     {
                         // 處理按鈕事件
-                        HandleButtonEvent(replyToken, userId);
+                        HandleButtonEvent(replyToken, userId, "Create", "預約");
                     }
-                    else
+                    else if(userMsg == "查詢")
                     {
-                        // 其他訊息處理
-                        HandleTextMessage(replyToken, userName, userMsg);
+                        HandleButtonEvent(replyToken, userId , "Search", "查詢");
                     }
                 }
             }
@@ -52,22 +55,28 @@ namespace LineBot.Controllers
         }
 
 
-        private void HandleButtonEvent(string replyToken, string userId)
+        /// <summary>
+        /// 圖文回覆
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="userId"></param>
+        /// <param name="action"></param>
+        /// <param name="actionText"></param>
+        private void HandleButtonEvent(string replyToken, string userId, string action, string actionText)
         {
             string queryString = $"?UserId={HttpUtility.UrlEncode(userId)}";
 
-            ButtonsTemplate btnTmpl = new ButtonsTemplate()
-            {
-                altText = "請用手機檢視",
-                text = "點擊網址進行預約",
-                title = "長照計程車預約",
-                thumbnailImageUrl = new Uri(_webUrl + "/img/OIG2.jpg"),
-                actions = new List<TemplateActionBase>() {
-                new UriAction() {
-                    label = "點我預約",
-                    uri = new Uri($"{_webUrl}/LongTermCare/Create{queryString}")
+            ButtonsTemplate btnTmpl = new ButtonsTemplate();
+            btnTmpl.altText = "請用手機檢視";
+            btnTmpl.text = $"點擊網址進行{actionText}";
+            btnTmpl.title = $"長照計程車{actionText}";
+            btnTmpl.thumbnailImageUrl = new Uri(_webUrl + "/img/OIG2.jpg");
+            btnTmpl.actions = new List<TemplateActionBase>() {
+                new UriAction()
+                {
+                    label = $"點我{actionText}",
+                    uri = new Uri($"{_webUrl}/LongTermCare/{action}{queryString}")
                 }
-            }
             };
 
             _bot.ReplyMessage(replyToken, new TemplateMessage(btnTmpl));

@@ -1,4 +1,6 @@
 using isRock.LineBot;
+using LineBot.Interface;
+using LineBot.Repository;
 using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +25,8 @@ builder.Services.AddSingleton<string>(provider =>
     return webUrl;
 });
 
+// ª`¤JGoogleªA°È
+builder.Services.AddScoped<IGoogleSheets, GoogleSheetsRepository>();
 
 var app = builder.Build();
 

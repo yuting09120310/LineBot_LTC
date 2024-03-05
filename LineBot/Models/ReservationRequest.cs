@@ -4,7 +4,12 @@ namespace LineBot.Models
 {
     public class ReservationRequest
     {
-        [Display(Name = "UserId")]
+
+        [Display(Name = "訂單編號")]
+        public string Id { get; set; }
+
+
+        [Display(Name = "使用者編號")]
         public string UserId { get; set; }
 
 
@@ -62,7 +67,7 @@ namespace LineBot.Models
 
 
         [Display(Name = "長照資格")]
-        public bool LongTermCareQualification { get; set; }
+        public string LongTermCareQualification { get; set; }
 
 
         [Required(ErrorMessage = "請輸入注意事項")]
