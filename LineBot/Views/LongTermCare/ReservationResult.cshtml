@@ -4,10 +4,10 @@
 
 <div class="container mt-5">
     @{
-        if (Message.Contains("預約成功"))
+        if (Message.Contains("成功"))
         {
-             <h2 class="text-center">預約成功</h2>
-            <p class="text-center mt-3">親愛的客戶您好，您的預約已受理。</p>
+            <h2 class="text-center">@Message</h2>
+             <p class="text-center mt-3">親愛的客戶您好，您的訂單已受理。</p>
         }
         else
         {
@@ -22,7 +22,7 @@
 @{
     if (!string.IsNullOrEmpty(Message))
     {
-        if (Message.Contains("預約成功"))
+        if (Message.Contains("成功"))
         {
             <script>
                 Swal.fire({

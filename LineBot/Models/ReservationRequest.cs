@@ -6,7 +6,7 @@ namespace LineBot.Models
     {
 
         [Display(Name = "訂單編號")]
-        public string Id { get; set; }
+        public int? Id { get; set; }
 
 
         [Display(Name = "使用者編號")]

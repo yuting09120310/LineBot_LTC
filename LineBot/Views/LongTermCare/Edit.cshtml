@@ -6,7 +6,7 @@
 
 <div class="container mt-5">
     <h2>預約資訊表單</h2>
-    <form method="post" asp-action="Edit" asp-controller="LongTermCare">
+    <form method="post" id="reservationForm" asp-action="Edit" asp-controller="LongTermCare">
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="UserId" id="UserIdInput" />
         <div class="mb-3">
@@ -88,6 +88,18 @@
             <span asp-validation-for="Notes" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">提交預約</button>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="submitForm('Edit')">修改完成</button>
+            <button type="button" class="btn btn-primary" onclick="submitForm('Delete')">刪除資料</button>
+        </div>
     </form>
+
+    <script>
+        function submitForm(action) {
+            var form = document.getElementById('reservationForm');
+            form.action = '/LongTermCare/' + action;
+            form.submit();
+        }
+    </script>
+
 </div>

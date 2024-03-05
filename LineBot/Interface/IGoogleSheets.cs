@@ -4,14 +4,14 @@ namespace LineBot.Interface
 {
     public interface IGoogleSheets
     {
-        void CreateGoogleSheet(ReservationRequest reservationRequest);
+        void CreateData(ReservationRequest reservationRequest);
 
-        ReservationRequest ReadGoogleSheet(int Id);
+        ReservationRequest ReadData(int Id);
 
-        List<ReservationRequest> ListReadGoogleSheet(string userId);
+        List<ReservationRequest> ListReadData(string userId);
 
-        void UpdateGoogleSheet(ReservationRequest reservationRequest);
+        void UpdateData(ReservationRequest reservationRequest);
 
-        void DeleteGoogleSheet(int Id);
+        void DeleteData(int Id);
     }
 }

@@ -72,7 +72,7 @@ namespace LineBot.Controllers
 注意事項：{reservationRequest.Notes}");
 
 
-                _googleSheets.CreateGoogleSheet(reservationRequest);
+                _googleSheets.CreateData(reservationRequest);
 
                 // 使用 TempData 儲存成功訊息
                 TempData["Message"] = "預約成功";
@@ -82,7 +82,6 @@ namespace LineBot.Controllers
             }
             else
             {
-                GetSelectListItem();
                 return View(reservationRequest);
             }
         }
@@ -97,7 +96,7 @@ namespace LineBot.Controllers
                 return RedirectToAction("ReservationResult");
             }
 
-            List<ReservationRequest> LstReservationRequests = _googleSheets.ListReadGoogleSheet(userId);
+            List<ReservationRequest> LstReservationRequests = _googleSheets.ListReadData(userId);
 
             return View(LstReservationRequests);
         }
@@ -106,7 +105,7 @@ namespace LineBot.Controllers
         public IActionResult Edit(int id)
         {
             GetSelectListItem();
-            ReservationRequest reservationRequests = _googleSheets.ReadGoogleSheet(id);
+            ReservationRequest reservationRequests = _googleSheets.ReadData(id);
 
             return View(reservationRequests);
         }
@@ -116,13 +115,39 @@ namespace LineBot.Controllers
         public IActionResult Edit(ReservationRequest reservationRequest)
         {
             GetSelectListItem();
-            _googleSheets.UpdateGoogleSheet(reservationRequest);
 
-            return View();
+            if (ModelState.IsValid)
+            {
+                _googleSheets.UpdateData(reservationRequest);
+
+                // 使用 TempData 儲存成功訊息
+                TempData["Message"] = "訂單修改成功";
+
+                // 跳轉到ReservationResult
+                return RedirectToAction("ReservationResult");
+            }
+            else
+            {
+                return View(reservationRequest);
+            }
         }
 
+
+        [HttpPost]
+        public IActionResult Delete(int Id)
+        {
+            _googleSheets.DeleteData(Id);
+
+            // 使用 TempData 儲存成功訊息
+            TempData["Message"] = "訂單刪除成功";
+
+            // 跳轉到ReservationResult
+            return RedirectToAction("ReservationResult");
+        }
+        
+
         /// <summary>
-        /// 預約完成
+        /// 跳轉結果
         /// </summary>
         /// <returns></returns>
         public IActionResult ReservationResult()
