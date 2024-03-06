@@ -79,11 +79,11 @@ namespace LineBot.Repository
                     values.Count + 1,
                     reservationRequest.UserId,
                     reservationRequest.FullName,
-                    reservationRequest.ServiceDate,
-                    reservationRequest.ServiceTime,
+                    reservationRequest.ServiceDate.ToString("yyyy-MM-dd"),
+                    reservationRequest.ServiceTime.ToString("c"),
                     reservationRequest.PickupLocation,
                     reservationRequest.DropOffLocation,
-                    reservationRequest.ReturnServiceTime,
+                    reservationRequest.ReturnServiceTime?.ToString("c"),
                     reservationRequest.MedicalPurpose,
                     reservationRequest.AccompanyingPersons,
                     reservationRequest.ContactTitle,
@@ -198,8 +198,9 @@ namespace LineBot.Repository
 
             foreach (var row in values)
             {
+                int.TryParse(row[0].ToString(), out int rowId);
                 // 檢查列表是否包含目標值
-                if (row.Count > 1 && Convert.ToInt32(row[0].ToString()) == Id)
+                if (row.Count > 1 && rowId == Id)
                 {
                     //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
                     reservationRequest.Id = Convert.ToInt32(row[0].ToString());
@@ -241,11 +242,11 @@ namespace LineBot.Repository
                     reservationRequest.Id ,
                     reservationRequest.UserId,
                     reservationRequest.FullName,
-                    reservationRequest.ServiceDate,
-                    reservationRequest.ServiceTime,
+                    reservationRequest.ServiceDate.ToString("yyyy-MM-dd"),
+                    reservationRequest.ServiceTime.ToString("HH:mm:ss"),
                     reservationRequest.PickupLocation,
                     reservationRequest.DropOffLocation,
-                    reservationRequest.ReturnServiceTime,
+                    reservationRequest.ReturnServiceTime?.ToString("HH:mm:ss"),
                     reservationRequest.MedicalPurpose,
                     reservationRequest.AccompanyingPersons,
                     reservationRequest.ContactTitle,

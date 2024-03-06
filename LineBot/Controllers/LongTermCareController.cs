@@ -55,21 +55,9 @@ namespace LineBot.Controllers
             if (ModelState.IsValid)
             {
                 _bot.PushMessage(reservationRequest.UserId,
-                    $@"預約完成，資料如下
-
-個案大名：{reservationRequest.FullName}
-預約服務日期：{reservationRequest.ServiceDate}
-預約服務時間：{reservationRequest.ServiceTime}
-上車地點：{reservationRequest.PickupLocation}
-下車地點：{reservationRequest.DropOffLocation}
-回程需求：{reservationRequest.ReturnServiceTime}
-就醫目的：{reservationRequest.MedicalPurpose}
-陪同人數：{reservationRequest.AccompanyingPersons}
-聯絡人稱謂：{reservationRequest.ContactTitle}
-聯絡電話：{reservationRequest.ContactPhoneNumber}
-服務項目：{reservationRequest.ServiceType}
-長照資格：{reservationRequest.LongTermCareQualification}
-注意事項：{reservationRequest.Notes}");
+                    $@"親愛的 {reservationRequest.FullName} 您好，
+您的預約已經確認完成，預計服務日期為 {reservationRequest.ServiceDate.ToString("yyyy-MM-dd")}，
+感謝您的預約，若有任何問題請隨時聯絡我們。");
 
 
                 _googleSheets.CreateData(reservationRequest);

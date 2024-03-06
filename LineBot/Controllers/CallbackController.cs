@@ -69,7 +69,7 @@ namespace LineBot.Controllers
             ButtonsTemplate btnTmpl = new ButtonsTemplate();
             btnTmpl.altText = "請用手機檢視";
             btnTmpl.text = $"點擊網址進行{actionText}";
-            btnTmpl.title = $"長照計程車{actionText}";
+            btnTmpl.title = $"{actionText}";
             btnTmpl.thumbnailImageUrl = new Uri(_webUrl + "/img/OIG2.jpg");
             btnTmpl.actions = new List<TemplateActionBase>() {
                 new UriAction()
