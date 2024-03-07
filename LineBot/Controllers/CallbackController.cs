@@ -43,11 +43,11 @@ namespace LineBot.Controllers
                     if (userMsg == "預約")
                     {
                         // 處理按鈕事件
-                        HandleButtonEvent(replyToken, userId, "Create", "預約");
+                        HandleButtonEvent(replyToken, userId, "Create", "預約", "Reserve.jpg");
                     }
                     else if(userMsg == "查詢")
                     {
-                        HandleButtonEvent(replyToken, userId , "Search", "查詢");
+                        HandleButtonEvent(replyToken, userId , "Search", "查詢", "Search.jpg");
                     }
                 }
             }
@@ -62,7 +62,7 @@ namespace LineBot.Controllers
         /// <param name="userId"></param>
         /// <param name="action"></param>
         /// <param name="actionText"></param>
-        private void HandleButtonEvent(string replyToken, string userId, string action, string actionText)
+        private void HandleButtonEvent(string replyToken, string userId, string action, string actionText, string img)
         {
             string queryString = $"?UserId={HttpUtility.UrlEncode(userId)}";
 
@@ -70,7 +70,7 @@ namespace LineBot.Controllers
             btnTmpl.altText = "請用手機檢視";
             btnTmpl.text = $"點擊網址進行{actionText}";
             btnTmpl.title = $"{actionText}";
-            btnTmpl.thumbnailImageUrl = new Uri(_webUrl + "/img/OIG2.jpg");
+            btnTmpl.thumbnailImageUrl = new Uri(_webUrl + $"/img/{img}");
             btnTmpl.actions = new List<TemplateActionBase>() {
                 new UriAction()
                 {
