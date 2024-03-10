@@ -54,13 +54,13 @@ namespace LineBot.Controllers
 
             if (ModelState.IsValid)
             {
+                _googleSheets.CreateData(reservationRequest);
+
+
                 _bot.PushMessage(reservationRequest.UserId,
                     $@"親愛的 {reservationRequest.FullName} 您好，
 您的預約已經確認完成，預計服務日期為 {reservationRequest.ServiceDate.ToString("yyyy-MM-dd")}，
 感謝您的預約，若有任何問題請隨時聯絡我們。");
-
-
-                _googleSheets.CreateData(reservationRequest);
 
                 // 使用 TempData 儲存成功訊息
                 TempData["Message"] = "預約成功";
@@ -149,6 +149,24 @@ namespace LineBot.Controllers
         /// </summary>
         private void GetSelectListItem()
         {
+            ViewBag.MedicalPurpose = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "看診", Text = "看診" },
+                new SelectListItem { Value = "抽血", Text = "抽血" },
+                new SelectListItem { Value = "復健", Text = "復健" },
+                new SelectListItem { Value = "洗腎", Text = "洗腎" },
+                new SelectListItem { Value = "其他", Text = "其他" },
+            };
+
+
+            ViewBag.ServiceType = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "爬梯機", Text = "爬梯機" },
+                new SelectListItem { Value = "輪椅車", Text = "輪椅車" },
+                new SelectListItem { Value = "一般車", Text = "一般車" },
+            };
+
+
             // 設定 LongTermCareQualification 的選項
             ViewBag.LongTermCareQualification = new List<SelectListItem>
             {

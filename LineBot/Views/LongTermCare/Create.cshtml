@@ -47,7 +47,7 @@
 
         <div class="mb-3">
             <label asp-for="MedicalPurpose" class="col-sm-3 col-form-label"></label>
-            <input asp-for="MedicalPurpose" class="form-control" type="text" />
+            @Html.DropDownListFor(model => model.MedicalPurpose, ViewBag.MedicalPurpose as List<SelectListItem>, htmlAttributes: new { @class = "form-control" })
             <span asp-validation-for="MedicalPurpose" class="text-danger"></span>
         </div>
 
@@ -71,7 +71,7 @@
 
         <div class="mb-3">
             <label asp-for="ServiceType" class="col-sm-3 col-form-label"></label>
-            <input asp-for="ServiceType" class="form-control" type="text" />
+            @Html.DropDownListFor(model => model.ServiceType, ViewBag.ServiceType as List<SelectListItem>, htmlAttributes: new { @class = "form-control" })
             <span asp-validation-for="ServiceType" class="text-danger"></span>
         </div>
 

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using LineBot.Attribute;
+using System.ComponentModel.DataAnnotations;
 
 namespace LineBot.Models
 {
@@ -20,6 +21,8 @@ namespace LineBot.Models
 
         [Required(ErrorMessage = "請輸入預約服務日期")]
         [Display(Name = "預約服務日期")]
+        [DataType(DataType.Date)]
+        [ReservationDate(ErrorMessage = "預約日期必須至少提前 3 天。")]
         public DateTime ServiceDate { get; set; }
 
 
