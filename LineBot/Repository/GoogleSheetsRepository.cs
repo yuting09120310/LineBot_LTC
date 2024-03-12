@@ -118,6 +118,60 @@ namespace LineBot.Repository
 
 
         /// <summary>
+        /// 取得所有訂單
+        /// </summary>
+        /// <returns></returns>
+        public List<ReservationRequest> ListReadData()
+        {
+            SheetsService service = CreateSheetsService();
+
+            SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
+
+            Google.Apis.Sheets.v4.Data.ValueRange response = request.Execute();
+            IList<IList<object>> values = response.Values;
+
+            List<ReservationRequest> ListReservationRequest = new List<ReservationRequest>();
+
+            // 移除標題行
+            if (values.Count > 0)
+            {
+                values.RemoveAt(0);
+            }
+
+            foreach (var row in values)
+            {
+                //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
+                ReservationRequest reservationRequest = new ReservationRequest();
+                reservationRequest.Id = Convert.ToInt32(row[0].ToString());
+                reservationRequest.UserId = row[1].ToString();
+                reservationRequest.FullName = row[2].ToString();
+                reservationRequest.ServiceDate = Convert.ToDateTime(row[3].ToString());
+                reservationRequest.ServiceTime = TimeSpan.Parse(row[4].ToString());
+                reservationRequest.PickupLocation = row[5].ToString();
+                reservationRequest.DropOffLocation = row[6].ToString();
+                if (TimeSpan.TryParse(row[7].ToString(), out TimeSpan returnServiceTime))
+                {
+                    reservationRequest.ReturnServiceTime = returnServiceTime;
+                }
+                reservationRequest.MedicalPurpose = row[8].ToString();
+                reservationRequest.AccompanyingPersons = Convert.ToInt16(row[9].ToString());
+                reservationRequest.ContactTitle = row[10].ToString();
+                reservationRequest.ContactPhoneNumber = row[11].ToString();
+                reservationRequest.ServiceType = row[12].ToString();
+                reservationRequest.LongTermCareQualification = row[13].ToString();
+                if (row.Count > 14 && row[14] != null)
+                {
+                    reservationRequest.Notes = row[14].ToString();
+                }
+
+                ListReservationRequest.Add(reservationRequest);
+            }
+
+            return ListReservationRequest;
+        }
+
+
+        /// <summary>
         /// 取得該使用者所有訂單
         /// </summary>
         /// <param name="userId"></param>

@@ -6,9 +6,11 @@ namespace LineBot.Interface
     {
         void CreateData(ReservationRequest reservationRequest);
 
-        ReservationRequest ReadData(int Id);
+        List<ReservationRequest> ListReadData();
 
         List<ReservationRequest> ListReadData(string userId);
+
+        ReservationRequest ReadData(int Id);
 
         void UpdateData(ReservationRequest reservationRequest);
 

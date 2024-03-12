@@ -56,8 +56,6 @@ namespace LineBot.Controllers
 
             if (ModelState.IsValid)
             {
-                
-
                 _googleSheets.CreateData(reservationRequest);
 
                 _bot.PushMessage(reservationRequest.UserId,
