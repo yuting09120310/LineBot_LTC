@@ -3,6 +3,7 @@ using LineBot.Interface;
 using LineBot.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace LineBot.Controllers
 {
@@ -52,10 +53,12 @@ namespace LineBot.Controllers
         {
             GetSelectListItem();
 
+
             if (ModelState.IsValid)
             {
-                _googleSheets.CreateData(reservationRequest);
+                
 
+                _googleSheets.CreateData(reservationRequest);
 
                 _bot.PushMessage(reservationRequest.UserId,
                     $@"親愛的 {reservationRequest.FullName} 您好，

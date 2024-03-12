@@ -42,6 +42,7 @@ namespace LineBot.Models
 
 
         [Display(Name = "回程服務時間")]
+        [ReservationTime(ErrorMessage = "預約時間不能晚於回程時間。")]
         public TimeSpan? ReturnServiceTime { get; set; }
 
 
@@ -61,7 +62,7 @@ namespace LineBot.Models
 
         [Required(ErrorMessage = "請輸入行動電話")]
         [Display(Name = "行動電話")]
-        [RegularExpression(@"^09\d{8}$", ErrorMessage = "請輸入正確的行動電話格式，例如：0912345678")]
+        [RegularExpression(@"^((09\d{8})|([0-9]{2,3}-?[0-9]{6,8}))$", ErrorMessage = "請輸入正確的電話格式")]
         public string ContactPhoneNumber { get; set; }
 
 
@@ -73,9 +74,8 @@ namespace LineBot.Models
         public string LongTermCareQualification { get; set; }
 
 
-        [Required(ErrorMessage = "請輸入注意事項")]
         [Display(Name = "注意事項")]
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
     }
 
 }
