@@ -27,31 +27,15 @@ namespace LineBot.Controllers
                 if ((request.ServiceDate - DateTime.UtcNow.AddHours(8).Date.AddHours(0)).TotalDays < 3)
                 {
                     DateTime oneDayBefore = request.ServiceDate.AddDays(-1);
-                    DateTime threeDaysBefore = request.ServiceDate.AddDays(-3);
-
                     DateTime today = DateTime.UtcNow.AddHours(8).Date.AddHours(0);
 
-
-
-                    if (today == oneDayBefore || today == threeDaysBefore)
+                    if (today == oneDayBefore)
                     {
                         // 發送通知
                         if (today == oneDayBefore)
                         {
-                            _bot.PushMessage("Ua4a1c1f2d4fd6403641b6e9107269859",
+                            _bot.PushMessage(_userId,
                                 @$"明天有一個重要的預約，請留意：
-訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
-個案大名：{request.FullName},
-上車地點：{request.PickupLocation},
-下車地點：{request.DropOffLocation},
-聯絡電話：{request.ContactPhoneNumber},
-服務項目：{request.ServiceType},
-備註：{request.Notes}");
-                        }
-                        else if (today == threeDaysBefore)
-                        {
-                            _bot.PushMessage("Ua4a1c1f2d4fd6403641b6e9107269859", 
-                                @$"距離預約時間還有三天，請務必留意：
 訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
 個案大名：{request.FullName},
 上車地點：{request.PickupLocation},
