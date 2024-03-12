@@ -9,7 +9,7 @@ namespace LineBot.Controllers
     {
         private readonly Bot _bot;
         private readonly IGoogleSheets _googleSheets;
-        private readonly string _userId = "Ua4a1c1f2d4fd6403641b6e9107269859";
+        private string _userId = "Ua4a1c1f2d4fd6403641b6e9107269859";
 
         public DailyOrderCheckController(Bot bot, IGoogleSheets googleSheets)
         {
@@ -36,7 +36,7 @@ namespace LineBot.Controllers
                         // 發送通知
                         if (today == oneDayBefore)
                         {
-                            _bot.PushMessage(_userId,
+                            _bot.PushMessage("Ua4a1c1f2d4fd6403641b6e9107269859",
                                 @$"明天有一個重要的預約，請留意：
 訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
 個案大名：{request.FullName},
@@ -48,7 +48,7 @@ namespace LineBot.Controllers
                         }
                         else if (today == threeDaysBefore)
                         {
-                            _bot.PushMessage(_userId, 
+                            _bot.PushMessage("Ua4a1c1f2d4fd6403641b6e9107269859", 
                                 @$"距離預約時間還有三天，請務必留意：
 訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
 個案大名：{request.FullName},
