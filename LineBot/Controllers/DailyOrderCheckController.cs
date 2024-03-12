@@ -63,7 +63,7 @@ namespace LineBot.Controllers
                 }
             }
 
-            return View();
+            return View(AllReservationRequests);
         }
     }
 }

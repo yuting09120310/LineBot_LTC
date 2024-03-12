@@ -1,7 +1,29 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<LineBot.Models.ReservationRequest>
 @{
 }
 
 <h1>OK</h1>
+
+@{
+    foreach(var item in Model)
+    {
+        <h5>@item.Id</h5>
+        <h5>@item.UserId</h5>
+        <h5>@item.FullName</h5>
+        <h5>@item.ServiceDate</h5>
+        <h5>@item.ServiceTime</h5>
+        <h5>@item.PickupLocation</h5>
+        <h5>@item.DropOffLocation</h5>
+        <h5>@item.MedicalPurpose</h5>
+        <h5>@item.AccompanyingPersons</h5>
+        <h5>@item.ContactTitle</h5>
+        <h5>@item.ContactPhoneNumber</h5>
+        <h5>@item.ServiceType</h5>
+        <h5>@item.LongTermCareQualification</h5>
+        <h5>@item.Notes</h5>
+
+        <hr />
+    }
+
+    @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+}
