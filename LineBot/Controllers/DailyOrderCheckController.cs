@@ -24,12 +24,14 @@ namespace LineBot.Controllers
 
             foreach (ReservationRequest request in AllReservationRequests)
             {
-                if ((request.ServiceDate - DateTime.Now).TotalDays < 3)
+                if ((request.ServiceDate - DateTime.UtcNow.AddHours(8).Date.AddHours(0)).TotalDays < 3)
                 {
                     DateTime oneDayBefore = request.ServiceDate.AddDays(-1);
                     DateTime threeDaysBefore = request.ServiceDate.AddDays(-3);
 
-                    DateTime today = DateTime.UtcNow.AddHours(8);
+                    DateTime today = DateTime.UtcNow.AddHours(8).Date.AddHours(0);
+
+
 
                     if (today == oneDayBefore || today == threeDaysBefore)
                     {

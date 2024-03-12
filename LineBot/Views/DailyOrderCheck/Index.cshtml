@@ -25,5 +25,6 @@
         <hr />
     }
 
-    @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+    @DateTime.UtcNow.AddHours(8).Date.AddHours(0).ToString("yyyy-MM-dd HH:mm:ss")
+    ;
 }
