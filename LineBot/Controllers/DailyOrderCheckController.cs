@@ -10,6 +10,7 @@ namespace LineBot.Controllers
         private readonly Bot _bot;
         private readonly IGoogleSheets _googleSheets;
         private string _userId = "U2d09fc0d088be8f09c85ee998bbd8481";
+        private string _admin = "Ua4a1c1f2d4fd6403641b6e9107269859";
 
         public DailyOrderCheckController(Bot bot, IGoogleSheets googleSheets)
         {
@@ -35,6 +36,16 @@ namespace LineBot.Controllers
                         if (today == oneDayBefore)
                         {
                             _bot.PushMessage(_userId,
+                                @$"明天有一個重要的預約，請留意：
+訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
+個案大名：{request.FullName},
+上車地點：{request.PickupLocation},
+下車地點：{request.DropOffLocation},
+聯絡電話：{request.ContactPhoneNumber},
+服務項目：{request.ServiceType},
+備註：{request.Notes}");
+
+                            _bot.PushMessage(_admin,
                                 @$"明天有一個重要的預約，請留意：
 訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
 個案大名：{request.FullName},
