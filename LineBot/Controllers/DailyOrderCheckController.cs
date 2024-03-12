@@ -29,7 +29,7 @@ namespace LineBot.Controllers
                     DateTime oneDayBefore = request.ServiceDate.AddDays(-1);
                     DateTime threeDaysBefore = request.ServiceDate.AddDays(-3);
 
-                    DateTime today = DateTime.Today;
+                    DateTime today = DateTime.UtcNow.AddHours(8);
 
                     if (today == oneDayBefore || today == threeDaysBefore)
                     {
