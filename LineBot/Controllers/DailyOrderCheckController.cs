@@ -63,7 +63,7 @@ namespace LineBot.Controllers
                 }
             }
 
-            return Ok();
+            return View();
         }
     }
 }
