@@ -9,8 +9,8 @@ namespace LineBot.Controllers
     {
         private readonly Bot _bot;
         private readonly IGoogleSheets _googleSheets;
-        private string _userId = "U2d09fc0d088be8f09c85ee998bbd8481";
-        private string _admin = "Ua4a1c1f2d4fd6403641b6e9107269859";
+        private string _userId = "U0040d9605949cdceadab64168d00c335";
+        private string _admin = "U41f5db0d177d113e24385ef4a8aba148";
 
         public DailyOrderCheckController(Bot bot, IGoogleSheets googleSheets)
         {

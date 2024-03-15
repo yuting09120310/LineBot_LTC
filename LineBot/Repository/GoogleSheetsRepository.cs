@@ -163,6 +163,10 @@ namespace LineBot.Repository
                 {
                     reservationRequest.Notes = row[14].ToString();
                 }
+                if (row.Count > 15 && row[15] != null)
+                {
+                    reservationRequest.Driver = row[15].ToString();
+                }
 
                 ListReservationRequest.Add(reservationRequest);
             }
@@ -217,7 +221,10 @@ namespace LineBot.Repository
                     reservationRequest.ContactPhoneNumber = row[11].ToString();
                     reservationRequest.ServiceType = row[12].ToString();
                     reservationRequest.LongTermCareQualification = row[13].ToString();
-                    reservationRequest.Notes = row[14].ToString();
+                    if (row.Count > 14 && row[14] != null)
+                    {
+                        reservationRequest.Notes = row[14].ToString();
+                    }
 
                     ListReservationRequest.Add(reservationRequest);
                 }
@@ -274,7 +281,10 @@ namespace LineBot.Repository
                     reservationRequest.ContactPhoneNumber = row[11].ToString();
                     reservationRequest.ServiceType = row[12].ToString();
                     reservationRequest.LongTermCareQualification = row[13].ToString();
-                    reservationRequest.Notes = row[14].ToString();
+                    if (row.Count > 14 && row[14] != null)
+                    {
+                        reservationRequest.Notes = row[14].ToString();
+                    }
                 }
             }
 

@@ -76,6 +76,10 @@ namespace LineBot.Models
 
         [Display(Name = "注意事項")]
         public string? Notes { get; set; }
+
+
+        [Display(Name = "司機")]
+        public string? Driver { get; set; }
     }
 
 }
