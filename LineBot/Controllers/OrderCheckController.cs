@@ -104,7 +104,7 @@ namespace LineBot.Controllers
                         @$"{reservationRequests.FullName}
 {reservationRequests.ContactPhoneNumber}
 {reservationRequests.PickupLocation}
-{reservationRequests.ServiceDate.ToString("MM/DD")}   {reservationRequests.ServiceTime.ToString(@"hh\:mm")}去{reservationRequests.DropOffLocation}{reservationRequests.MedicalPurpose} 11:00回");
+{reservationRequests.ServiceDate.ToString("MM/dd")}   {reservationRequests.ServiceTime.ToString(@"hh\:mm")}去{reservationRequests.DropOffLocation}{reservationRequests.MedicalPurpose} 11:00回");
             }
 
             return View(reservationRequests);
