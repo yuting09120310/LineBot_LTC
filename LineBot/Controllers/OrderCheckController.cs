@@ -1,25 +1,29 @@
-﻿using isRock.LineBot;
+﻿using Google.Apis.Sheets.v4.Data;
+using isRock.LineBot;
 using LineBot.Interface;
 using LineBot.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LineBot.Controllers
 {
-    public class DailyOrderCheckController : Controller
+    public class OrderCheckController : Controller
     {
         private readonly Bot _bot;
         private readonly IGoogleSheets _googleSheets;
         private string _userId = "U0040d9605949cdceadab64168d00c335";
         private string _admin = "U41f5db0d177d113e24385ef4a8aba148";
 
-        public DailyOrderCheckController(Bot bot, IGoogleSheets googleSheets)
+        public OrderCheckController(Bot bot, IGoogleSheets googleSheets)
         {
             _bot = bot;
             _googleSheets = googleSheets;
         }
 
-
-        public IActionResult Index()
+        /// <summary>
+        /// 每日通知  由電腦排程自動通知
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult DailyOrderCheck()
         {
             List<ReservationRequest> AllReservationRequests = _googleSheets.GetAllReservation();
 
@@ -60,7 +64,29 @@ namespace LineBot.Controllers
                 }
             }
 
-            return View(AllReservationRequests);
+            return Ok();
+        }
+
+
+        /// <summary>
+        /// 手動通知
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult ManualNotification(int Id)
+        {
+            ReservationRequest reservationRequests = _googleSheets.GetReservation(Id);
+
+            _bot.PushMessage(_userId,
+            @$"明天有一個重要的預約，請留意：
+訂單時間： {reservationRequests.ServiceDate.ToString("yyyy-MM-dd")} {reservationRequests.ServiceTime},
+個案大名： {reservationRequests.FullName},
+上車地點： {reservationRequests.PickupLocation},
+下車地點： {reservationRequests.DropOffLocation},
+聯絡電話： {reservationRequests.ContactPhoneNumber},
+服務項目： {reservationRequests.ServiceType},
+備註：{reservationRequests.Notes}");
+
+            return Ok();
         }
     }
 }

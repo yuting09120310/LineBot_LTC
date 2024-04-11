@@ -91,11 +91,15 @@ namespace LineBot.Repository
                     reservationRequest.ContactPhoneNumber,
                     reservationRequest.ServiceType,
                     reservationRequest.LongTermCareQualification,
-                    reservationRequest.Notes
+                    reservationRequest.Notes,
+                    "",
+                    "",
+                    "",
+                    $"=HYPERLINK(\"{_webUrl}/OrderCheck/\",\"通知連結\")",
                 };
 
                 // 指定寫入的範圍
-                string sRange = String.Format("{0}!A{1}:O{1}", range, values.Count + 1);
+                string sRange = String.Format("{0}!A{1}:S{1}", range, values.Count + 1);
 
                 // 創建 ValueRange 對象
                 ValueRange valueRange = new ValueRange
