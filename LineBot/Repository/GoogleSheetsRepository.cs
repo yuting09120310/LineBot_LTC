@@ -21,7 +21,6 @@ namespace LineBot.Repository
         private string _spreadsheetId = "14RE63i1tbyuK2jx0NJ-OUZtiJWUYCPzNvPgOQjtsess";
         string[] _scopes = { SheetsService.Scope.Spreadsheets };
         private GoogleCredential _credential;
-        string range = "工作表1";
 
 
         public GoogleSheetsRepository(string webUrl)
@@ -63,10 +62,12 @@ namespace LineBot.Repository
         /// 新增訂單
         /// </summary>
         /// <param name="reservationRequest">訂單資料</param>
-        public void CreateData(ReservationRequest reservationRequest)
+        public void CreateReservation(ReservationRequest reservationRequest)
         {
             try
             {
+                string range = "訂單";
+
                 SheetsService service = CreateSheetsService();
 
                 SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
@@ -121,8 +122,10 @@ namespace LineBot.Repository
         /// 取得所有訂單
         /// </summary>
         /// <returns></returns>
-        public List<ReservationRequest> ListReadData()
+        public List<ReservationRequest> GetAllReservation()
         {
+            string range = "訂單";
+
             SheetsService service = CreateSheetsService();
 
             SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
@@ -180,8 +183,10 @@ namespace LineBot.Repository
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public List<ReservationRequest> ListReadData(string userId)
+        public List<ReservationRequest> GetUserReservation(string userId)
         {
+            string range = "訂單";
+
             SheetsService service = CreateSheetsService();
 
             SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
@@ -239,8 +244,10 @@ namespace LineBot.Repository
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public ReservationRequest ReadData(int Id)
+        public ReservationRequest GetReservation(int Id)
         {
+            string range = "訂單";
+
             SheetsService service = CreateSheetsService();
 
             SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
@@ -297,8 +304,10 @@ namespace LineBot.Repository
         /// 更新訂單
         /// </summary>
         /// <param name="reservationRequest">新資料</param>
-        public void UpdateData(ReservationRequest reservationRequest)
+        public void UpdateReservation(ReservationRequest reservationRequest)
         {
+            string range = "訂單";
+
             SheetsService service = CreateSheetsService();
 
             // 設定要寫入的資料
@@ -343,8 +352,10 @@ namespace LineBot.Repository
         /// 刪除訂單
         /// </summary>
         /// <param name="Id">訂單編號</param>
-        public void DeleteData(int Id)
+        public void DeleteReservation(int Id)
         {
+            string range = "訂單";
+
             SheetsService service = CreateSheetsService();
 
             // 設定要寫入的資料

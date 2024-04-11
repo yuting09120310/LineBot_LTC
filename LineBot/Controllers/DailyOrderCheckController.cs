@@ -21,7 +21,7 @@ namespace LineBot.Controllers
 
         public IActionResult Index()
         {
-            List<ReservationRequest> AllReservationRequests = _googleSheets.ListReadData();
+            List<ReservationRequest> AllReservationRequests = _googleSheets.GetAllReservation();
 
             foreach (ReservationRequest request in AllReservationRequests)
             {

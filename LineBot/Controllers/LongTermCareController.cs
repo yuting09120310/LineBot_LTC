@@ -56,12 +56,11 @@ namespace LineBot.Controllers
 
             if (ModelState.IsValid)
             {
-                _googleSheets.CreateData(reservationRequest);
+                _googleSheets.CreateReservation(reservationRequest);
 
                 _bot.PushMessage(reservationRequest.UserId,
-                    $@"親愛的 {reservationRequest.FullName} 您好，
-您的預約已經確認完成，預計服務日期為 {reservationRequest.ServiceDate.ToString("yyyy-MM-dd")}，
-感謝您的預約，若有任何問題請隨時聯絡我們。");
+                    $@"已經接收到您的預約，預計服務日期為 {reservationRequest.ServiceDate.ToString("yyyy-MM-dd")}
+感謝您的預約，是否派車成功請等候通知，若有任何問題請隨時聯絡我們，謝謝配合");
 
                 // 使用 TempData 儲存成功訊息
                 TempData["Message"] = "預約成功";
@@ -85,7 +84,7 @@ namespace LineBot.Controllers
                 return RedirectToAction("ReservationResult");
             }
 
-            List<ReservationRequest> LstReservationRequests = _googleSheets.ListReadData(userId);
+            List<ReservationRequest> LstReservationRequests = _googleSheets.GetUserReservation(userId);
 
             return View(LstReservationRequests);
         }
@@ -94,7 +93,7 @@ namespace LineBot.Controllers
         public IActionResult Edit(int id)
         {
             GetSelectListItem();
-            ReservationRequest reservationRequests = _googleSheets.ReadData(id);
+            ReservationRequest reservationRequests = _googleSheets.GetReservation(id);
 
             return View(reservationRequests);
         }
@@ -107,7 +106,7 @@ namespace LineBot.Controllers
 
             if (ModelState.IsValid)
             {
-                _googleSheets.UpdateData(reservationRequest);
+                _googleSheets.UpdateReservation(reservationRequest);
 
                 // 使用 TempData 儲存成功訊息
                 TempData["Message"] = "訂單修改成功";
@@ -125,7 +124,7 @@ namespace LineBot.Controllers
         [HttpPost]
         public IActionResult Delete(int Id)
         {
-            _googleSheets.DeleteData(Id);
+            _googleSheets.DeleteReservation(Id);
 
             // 使用 TempData 儲存成功訊息
             TempData["Message"] = "訂單刪除成功";
