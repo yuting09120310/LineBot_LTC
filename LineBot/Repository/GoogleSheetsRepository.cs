@@ -75,9 +75,11 @@ namespace LineBot.Repository
                 Google.Apis.Sheets.v4.Data.ValueRange response = request.Execute();
                 IList<IList<object>> values = response.Values;
 
+                reservationRequest.Id = values.Count + 1;
+
                 // 設定要寫入的資料
                 List<object> rowData = new List<object> {
-                    values.Count + 1,
+                    reservationRequest.Id,
                     reservationRequest.UserId,
                     reservationRequest.FullName,
                     reservationRequest.ServiceDate.ToString("yyyy-MM-dd"),
@@ -95,7 +97,7 @@ namespace LineBot.Repository
                     "",
                     "",
                     "",
-                    $"=HYPERLINK(\"{_webUrl}/OrderCheck/\",\"通知連結\")",
+                    $"=HYPERLINK(\"{_webUrl}/OrderCheck/ManualNotification/{reservationRequest.Id}\",\"手動通知\")",
                 };
 
                 // 指定寫入的範圍
@@ -295,6 +297,18 @@ namespace LineBot.Repository
                     if (row.Count > 14 && row[14] != null)
                     {
                         reservationRequest.Notes = row[14].ToString();
+                    }
+                    if (row.Count > 15 && row[15] != null)
+                    {
+                        reservationRequest.Driver = row[15].ToString();
+                    }
+                    if (row.Count > 16 && row[16] != null)
+                    {
+                        reservationRequest.DriverNotify = row[16].ToString();
+                    }
+                    if (row.Count > 17 && row[17] != null)
+                    {
+                        reservationRequest.MemberNotify = row[17].ToString();
                     }
                 }
             }

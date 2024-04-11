@@ -76,17 +76,31 @@ namespace LineBot.Controllers
         {
             ReservationRequest reservationRequests = _googleSheets.GetReservation(Id);
 
-            _bot.PushMessage(_userId,
-            @$"明天有一個重要的預約，請留意：
-訂單時間： {reservationRequests.ServiceDate.ToString("yyyy-MM-dd")} {reservationRequests.ServiceTime},
-個案大名： {reservationRequests.FullName},
-上車地點： {reservationRequests.PickupLocation},
-下車地點： {reservationRequests.DropOffLocation},
-聯絡電話： {reservationRequests.ContactPhoneNumber},
-服務項目： {reservationRequests.ServiceType},
-備註：{reservationRequests.Notes}");
+            //通知乘客
+            if(reservationRequests.MemberNotify.Length > 0)
+            {
+                _bot.PushMessage(_admin,
+                        @$"早安您好：
+您預約{reservationRequests.ServiceDate}早上{reservationRequests.ServiceTime}到{reservationRequests.DropOffLocation}11:00回程
+已為您調配司機
+司機資訊如下 ：
+隊編：68611
+姓名：{reservationRequests.Driver}
+車型:納智捷V7白色
+車號:TDW-9237
+電話:0983502815
+若您時間上有提早或延後 麻煩提早半小時與司機聯繫
+我們儘量配合您時間");
+            }
 
-            return Ok();
+
+            //通知司機
+            if(reservationRequests.DriverNotify.Length > 0)
+            {
+
+            }
+
+            return View(reservationRequests);
         }
     }
 }
