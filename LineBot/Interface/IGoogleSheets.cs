@@ -15,5 +15,7 @@ namespace LineBot.Interface
         void UpdateReservation(ReservationRequest reservationRequest);
 
         void DeleteReservation(int Id);
+
+        Driver GetDriverInfo(string driverName);
     }
 }

@@ -248,9 +248,9 @@ namespace LineBot.Repository
         /// <summary>
         /// 取得該筆訂單資料
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public ReservationRequest GetReservation(int Id)
+        public ReservationRequest GetReservation(int id)
         {
             string range = "訂單";
 
@@ -274,7 +274,7 @@ namespace LineBot.Repository
             {
                 int.TryParse(row[0].ToString(), out int rowId);
                 // 檢查列表是否包含目標值
-                if (row.Count > 1 && rowId == Id)
+                if (row.Count > 1 && rowId == id)
                 {
                     //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
                     reservationRequest.Id = Convert.ToInt32(row[0].ToString());
@@ -369,8 +369,8 @@ namespace LineBot.Repository
         /// <summary>
         /// 刪除訂單
         /// </summary>
-        /// <param name="Id">訂單編號</param>
-        public void DeleteReservation(int Id)
+        /// <param name="id">訂單編號</param>
+        public void DeleteReservation(int id)
         {
             string range = "訂單";
 
@@ -380,7 +380,7 @@ namespace LineBot.Repository
             List<object> rowData = new List<object> {"", ""};
 
             // 指定寫入的範圍
-            string sRange = String.Format("{0}!A{1}:B{1}", range, Id);
+            string sRange = String.Format("{0}!A{1}:B{1}", range, id);
 
             // 創建 ValueRange 對象
             ValueRange valueRange = new ValueRange
@@ -397,5 +397,49 @@ namespace LineBot.Repository
             UpdateValuesResponse uUVR = updateRequest.Execute();
         }
 
+
+        /// <summary>
+        /// 取得司機資訊
+        /// </summary>
+        /// <param name="driverName"></param>
+        /// <returns></returns>
+        public Driver GetDriverInfo(string driverName)
+        {
+            string range = "司機";
+
+            SheetsService service = CreateSheetsService();
+
+            SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
+
+            Google.Apis.Sheets.v4.Data.ValueRange response = request.Execute();
+            IList<IList<object>> values = response.Values;
+
+
+            // 移除標題行
+            if (values.Count > 0)
+            {
+                values.RemoveAt(0);
+            }
+
+            Driver driver = new Driver();
+
+            foreach (var row in values)
+            {
+                // 檢查列表是否包含目標值
+                if (row.Count > 1 && row[3].ToString() == driverName)
+                {
+                    //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
+                    driver.DriverId = Convert.ToInt32(row[0].ToString());
+                    driver.TeamId = row[1].ToString();
+                    driver.DriverLineId = row[2].ToString();
+                    driver.Name = row[3].ToString();
+                    driver.CarModel = row[4].ToString();
+                    driver.CarNumber = row[5].ToString();
+                    driver.ContactNumber = row[6].ToString();
+                }
+            }
+
+            return driver;
+        }
     }
 }

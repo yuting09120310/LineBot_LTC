@@ -72,23 +72,26 @@ namespace LineBot.Controllers
         /// 手動通知
         /// </summary>
         /// <returns></returns>
-        public IActionResult ManualNotification(int Id)
+        public IActionResult ManualNotification(int id)
         {
-            ReservationRequest reservationRequests = _googleSheets.GetReservation(Id);
+            ReservationRequest reservationRequests = _googleSheets.GetReservation(id);
+
+            // 取得司機資訊
+            Driver driver = _googleSheets.GetDriverInfo(reservationRequests.Driver);
 
             //通知乘客
-            if(reservationRequests.MemberNotify.Length > 0)
+            if (reservationRequests.MemberNotify.Length > 0)
             {
-                _bot.PushMessage(_admin,
+                _bot.PushMessage(reservationRequests.UserId,
                         @$"早安您好：
-您預約{reservationRequests.ServiceDate}早上{reservationRequests.ServiceTime}到{reservationRequests.DropOffLocation}11:00回程
+您預約{reservationRequests.ServiceDate.ToString("MM/dd")}早上{reservationRequests.ServiceTime.ToString(@"hh\:mm")}到{reservationRequests.DropOffLocation}11:00回程
 已為您調配司機
 司機資訊如下 ：
-隊編：68611
-姓名：{reservationRequests.Driver}
-車型:納智捷V7白色
-車號:TDW-9237
-電話:0983502815
+隊編：{driver.TeamId}
+姓名：{driver.Name}
+車型:{driver.CarModel}
+車號:{driver.CarNumber}
+電話:{driver.ContactNumber}
 若您時間上有提早或延後 麻煩提早半小時與司機聯繫
 我們儘量配合您時間");
             }
@@ -97,7 +100,11 @@ namespace LineBot.Controllers
             //通知司機
             if(reservationRequests.DriverNotify.Length > 0)
             {
-
+                _bot.PushMessage(driver.DriverLineId,
+                        @$"{reservationRequests.FullName}
+{reservationRequests.ContactPhoneNumber}
+{reservationRequests.PickupLocation}
+{reservationRequests.ServiceDate.ToString("MM/DD")}   {reservationRequests.ServiceTime.ToString(@"hh\:mm")}去{reservationRequests.DropOffLocation}{reservationRequests.MedicalPurpose} 11:00回");
             }
 
             return View(reservationRequests);
