@@ -22,7 +22,7 @@
 
         <div class="mb-3">
             <label asp-for="ServiceTime" class="col-sm-3 col-form-label"></label>
-            <input asp-for="ServiceTime" class="form-control" type="time" />
+            <input asp-for="ServiceTime" class="form-control" type="text" />
             <span asp-validation-for="ServiceTime" class="text-danger"></span>
         </div>
 
@@ -104,4 +104,13 @@
             timer: 1500
         })
     }
+
+    // 初始化 Flatpickr
+    flatpickr("#ServiceTime", {
+        enableTime: true, // 啟用時間選擇
+        noCalendar: true, // 禁用日曆
+        dateFormat: "H:i", // 時間格式
+        time_24hr: true // 使用 24 小時制
+    });
+
 </script>
