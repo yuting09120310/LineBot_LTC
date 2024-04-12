@@ -12,7 +12,7 @@ namespace LineBot.Models
         public string TeamId { get; set; }
 
         [DisplayName("司機Line編號")]
-        public string DriverLineId { get; set; }
+        public string LineId { get; set; }
 
         [DisplayName("姓名")]
         public string Name { get; set; }

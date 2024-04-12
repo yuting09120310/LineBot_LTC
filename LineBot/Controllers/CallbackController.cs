@@ -43,11 +43,15 @@ namespace LineBot.Controllers
                     if (userMsg == "預約")
                     {
                         // 處理按鈕事件
-                        HandleButtonEvent(replyToken, userId, "Create", "預約", "Reserve.jpg");
+                        HandleButtonEvent(replyToken, userId, "LongTermCare", "Create", "預約", "Reserve.jpg");
                     }
                     else if(userMsg == "查詢")
                     {
-                        HandleButtonEvent(replyToken, userId , "Search", "查詢", "Search.jpg");
+                        HandleButtonEvent(replyToken, userId , "LongTermCare", "Search", "查詢", "Search.jpg");
+                    }
+                    else if (userMsg == "建立司機資料")
+                    {
+                        HandleButtonEvent(replyToken, userId, "Driver", "Create", "建立司機資料", "Search.jpg");
                     }
                 }
             }
@@ -62,9 +66,9 @@ namespace LineBot.Controllers
         /// <param name="userId"></param>
         /// <param name="action"></param>
         /// <param name="actionText"></param>
-        private void HandleButtonEvent(string replyToken, string userId, string action, string actionText, string img)
+        private void HandleButtonEvent(string replyToken, string userId, string controller, string action, string actionText, string img)
         {
-            string queryString = $"?UserId={HttpUtility.UrlEncode(userId)}";
+            string queryString = $"?LineId={HttpUtility.UrlEncode(userId)}";
 
             ButtonsTemplate btnTmpl = new ButtonsTemplate();
             btnTmpl.altText = "請用手機檢視";
@@ -75,7 +79,7 @@ namespace LineBot.Controllers
                 new UriAction()
                 {
                     label = $"點我{actionText}",
-                    uri = new Uri($"{_webUrl}/LongTermCare/{action}{queryString}")
+                    uri = new Uri($"{_webUrl}/{controller}/{action}{queryString}")
                 }
             };
 

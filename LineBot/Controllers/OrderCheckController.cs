@@ -105,7 +105,7 @@ namespace LineBot.Controllers
 我們儘量配合您時間";
 
 
-                _bot.PushMessage(reservationRequests.UserId,message);
+                _bot.PushMessage(reservationRequests.LineId,message);
             }
 
 
@@ -123,7 +123,7 @@ namespace LineBot.Controllers
                     message += $"{reservationRequests.ReturnServiceTime.ToString()}回程";
                 }
 
-                _bot.PushMessage(driver.DriverLineId,message);
+                _bot.PushMessage(driver.LineId, message);
             }
 
 

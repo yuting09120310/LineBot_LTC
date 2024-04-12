@@ -80,7 +80,7 @@ namespace LineBot.Repository
                 // 設定要寫入的資料
                 List<object> rowData = new List<object> {
                     reservationRequest.Id,
-                    reservationRequest.UserId,
+                    reservationRequest.LineId,
                     reservationRequest.FullName,
                     reservationRequest.ServiceDate.ToString("yyyy-MM-dd"),
                     reservationRequest.ServiceTime.ToString("c"),
@@ -152,7 +152,7 @@ namespace LineBot.Repository
                 //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
                 ReservationRequest reservationRequest = new ReservationRequest();
                 reservationRequest.Id = Convert.ToInt32(row[0].ToString());
-                reservationRequest.UserId = row[1].ToString();
+                reservationRequest.LineId = row[1].ToString();
                 reservationRequest.FullName = row[2].ToString();
                 reservationRequest.ServiceDate = Convert.ToDateTime(row[3].ToString());
                 reservationRequest.ServiceTime = TimeSpan.Parse(row[4].ToString());
@@ -216,7 +216,7 @@ namespace LineBot.Repository
                     //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
                     ReservationRequest reservationRequest = new ReservationRequest();
                     reservationRequest.Id = Convert.ToInt32(row[0].ToString());
-                    reservationRequest.UserId = row[1].ToString();
+                    reservationRequest.LineId = row[1].ToString();
                     reservationRequest.FullName = row[2].ToString();
                     reservationRequest.ServiceDate = Convert.ToDateTime(row[3].ToString());
                     reservationRequest.ServiceTime = TimeSpan.Parse(row[4].ToString());
@@ -278,7 +278,7 @@ namespace LineBot.Repository
                 {
                     //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
                     reservationRequest.Id = Convert.ToInt32(row[0].ToString());
-                    reservationRequest.UserId = row[1].ToString();
+                    reservationRequest.LineId = row[1].ToString();
                     reservationRequest.FullName = row[2].ToString();
                     reservationRequest.ServiceDate = Convert.ToDateTime(row[3].ToString());
                     reservationRequest.ServiceTime = TimeSpan.Parse(row[4].ToString());
@@ -331,7 +331,7 @@ namespace LineBot.Repository
             // 設定要寫入的資料
             List<object> rowData = new List<object> {
                     reservationRequest.Id ,
-                    reservationRequest.UserId,
+                    reservationRequest.LineId,
                     reservationRequest.FullName,
                     reservationRequest.ServiceDate.ToString("yyyy-MM-dd"),
                     reservationRequest.ServiceTime.ToString("c"),
@@ -431,7 +431,7 @@ namespace LineBot.Repository
                     //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
                     driver.DriverId = Convert.ToInt32(row[0].ToString());
                     driver.TeamId = row[1].ToString();
-                    driver.DriverLineId = row[2].ToString();
+                    driver.LineId = row[2].ToString();
                     driver.Name = row[3].ToString();
                     driver.CarModel = row[4].ToString();
                     driver.CarNumber = row[5].ToString();

@@ -10,8 +10,8 @@ namespace LineBot.Models
         public int? Id { get; set; }
 
 
-        [Display(Name = "使用者編號")]
-        public string UserId { get; set; }
+        [Display(Name = "用戶Line編號")]
+        public string LineId { get; set; }
 
 
         [Required(ErrorMessage = "請輸入名字")]

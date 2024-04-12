@@ -26,8 +26,8 @@ namespace LineBot.Controllers
         {
             GetSelectListItem();
 
-            string userId = HttpContext.Request.Query["UserId"];
-            if (userId == null)
+            string LineId = HttpContext.Request.Query["LineId"];
+            if (LineId == null)
             {
                 TempData["Message"] = "預約異常，請透過Line重新開啟此網頁";
                 return RedirectToAction("ReservationResult");
@@ -35,7 +35,7 @@ namespace LineBot.Controllers
 
             ReservationRequest reservationRequest = new ReservationRequest()
             {
-                UserId = userId!,
+                LineId = LineId!,
                 ServiceDate = DateTime.UtcNow,
             };
 
@@ -58,7 +58,7 @@ namespace LineBot.Controllers
             {
                 _googleSheets.CreateReservation(reservationRequest);
 
-                _bot.PushMessage(reservationRequest.UserId,
+                _bot.PushMessage(reservationRequest.LineId,
                     $@"已經接收到您的預約，預計服務日期為 {reservationRequest.ServiceDate.ToString("yyyy-MM-dd")}
 感謝您的預約，是否派車成功請等候通知，若有任何問題請隨時聯絡我們，謝謝配合");
 
@@ -77,14 +77,14 @@ namespace LineBot.Controllers
 
         public IActionResult Search()
         {
-            string userId = HttpContext.Request.Query["UserId"];
-            if (userId == null)
+            string LineId = HttpContext.Request.Query["LineId"];
+            if (LineId == null)
             {
                 TempData["Message"] = "預約異常，請透過Line重新開啟此網頁";
                 return RedirectToAction("ReservationResult");
             }
 
-            List<ReservationRequest> LstReservationRequests = _googleSheets.GetUserReservation(userId);
+            List<ReservationRequest> LstReservationRequests = _googleSheets.GetUserReservation(LineId);
 
             return View(LstReservationRequests);
         }
