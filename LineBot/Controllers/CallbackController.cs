@@ -51,7 +51,7 @@ namespace LineBot.Controllers
                     }
                     else if (userMsg == "建立司機資料")
                     {
-                        HandleButtonEvent(replyToken, userId, "Driver", "Create", "建立司機資料", "Search.jpg");
+                        HandleButtonEvent(replyToken, userId, "Driver", "Create", "建立司機資料", "AddDriver.jpg");
                     }
                 }
             }
