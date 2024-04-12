@@ -1,0 +1,20 @@
+﻿@{
+    var Message = TempData["Message"] as string;
+    ViewData["Title"] = "結果";
+}
+
+<div class="container mt-5">
+    @{
+        if (Message.Contains("成功"))
+        {
+            <h2 class="text-center">@Message</h2>
+             <p class="text-center mt-3">司機新增成功。</p>
+        }
+        else
+        {
+            <h2 class="text-center">新增司機失敗</h2>
+            <p class="text-center mt-3">請關閉此頁面，重新點擊Line預約。</p>
+        }
+    }
+    
+</div>

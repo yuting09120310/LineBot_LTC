@@ -127,7 +127,7 @@ namespace LineBot.Repository
         /// <summary>
         /// 取得所有訂單
         /// </summary>
-        /// <returns></returns>
+        /// <returns>所有訂單的列表</returns>
         public List<ReservationRequest> GetAllReservation()
         {
             string range = "訂單";
@@ -187,9 +187,9 @@ namespace LineBot.Repository
         /// <summary>
         /// 取得該使用者所有訂單
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public List<ReservationRequest> GetUserReservation(string userId)
+        /// <param name="lineId">該使用者的Line編號</param>
+        /// <returns>該使用者所有訂單</returns>
+        public List<ReservationRequest> GetUserReservation(string lineId)
         {
             string range = "訂單";
 
@@ -211,7 +211,7 @@ namespace LineBot.Repository
             foreach (var row in values)
             {
                 // 檢查列表是否包含目標值
-                if (row.Count > 1 && row[1].ToString() == userId)
+                if (row.Count > 1 && row[1].ToString() == lineId)
                 {
                     //如果你想將每一行的資料轉換為一個 Model 物件，可以在這裡進行轉換
                     ReservationRequest reservationRequest = new ReservationRequest();
@@ -248,7 +248,7 @@ namespace LineBot.Repository
         /// <summary>
         /// 取得該筆訂單資料
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">訂單編號</param>
         /// <returns></returns>
         public ReservationRequest GetReservation(int id)
         {
@@ -399,10 +399,64 @@ namespace LineBot.Repository
 
 
         /// <summary>
+        /// 建立司機資訊
+        /// </summary>
+        /// <param name="driver">司機Model</param>
+        public void CreateDriverInfo(Driver driver)
+        {
+            try
+            {
+                string range = "司機";
+
+                SheetsService service = CreateSheetsService();
+
+                SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadsheetId, range);
+
+                Google.Apis.Sheets.v4.Data.ValueRange response = request.Execute();
+                IList<IList<object>> values = response.Values;
+
+                driver.DriverId = values.Count + 1;
+
+                // 設定要寫入的資料
+                List<object> rowData = new List<object> {
+                    driver.DriverId,
+                    driver.TeamId,
+                    driver.LineId,
+                    driver.Name,
+                    driver.CarModel,
+                    driver.CarNumber,
+                    driver.ContactNumber,
+                };
+
+                // 指定寫入的範圍
+                string sRange = String.Format("{A}!A{1}:G{1}", range, values.Count + 1);
+
+                // 創建 ValueRange 對象
+                ValueRange valueRange = new ValueRange
+                {
+                    MajorDimension = "ROWS",
+                    Values = new List<IList<object>> { rowData }
+                };
+
+                //執行寫入動作
+                SpreadsheetsResource.ValuesResource.UpdateRequest updateRequest
+                    = service.Spreadsheets.Values.Update(valueRange, _spreadsheetId, sRange);
+                updateRequest.ValueInputOption
+                    = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+                UpdateValuesResponse uUVR = updateRequest.Execute();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
+        /// <summary>
         /// 取得司機資訊
         /// </summary>
-        /// <param name="driverName"></param>
-        /// <returns></returns>
+        /// <param name="driverName">司機姓名</param>
+        /// <returns>該司機Model</returns>
         public Driver GetDriverInfo(string driverName)
         {
             string range = "司機";

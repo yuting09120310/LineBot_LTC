@@ -8,14 +8,16 @@ namespace LineBot.Interface
 
         List<ReservationRequest> GetAllReservation();
 
-        List<ReservationRequest> GetUserReservation(string userId);
+        List<ReservationRequest> GetUserReservation(string lineId);
 
         ReservationRequest GetReservation(int Id);
 
         void UpdateReservation(ReservationRequest reservationRequest);
 
-        void DeleteReservation(int Id);
+        void DeleteReservation(int id);
 
         Driver GetDriverInfo(string driverName);
+
+        void CreateDriverInfo(Driver driver);
     }
 }
