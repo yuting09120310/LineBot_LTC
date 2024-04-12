@@ -84,9 +84,15 @@ namespace LineBot.Controllers
                 return RedirectToAction("ReservationResult");
             }
 
-            List<ReservationRequest> LstReservationRequests = _googleSheets.GetUserReservation(LineId);
+            // 獲取用戶的所有預約信息
+            List<ReservationRequest> allReservationRequests = _googleSheets.GetUserReservation(LineId);
 
-            return View(LstReservationRequests);
+            // 過濾出有效的訂單（服務日期在當前日期之後）
+            List<ReservationRequest> validReservationRequests = allReservationRequests
+                .Where(r => r.ServiceDate >= DateTime.Today)  // 只保留服務日期在當前日期之後的訂單
+                .ToList();
+
+            return View(validReservationRequests);
         }
 
 
