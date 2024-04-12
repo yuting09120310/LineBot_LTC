@@ -2,6 +2,7 @@
 using isRock.LineBot;
 using LineBot.Interface;
 using LineBot.Models;
+using LineBot.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LineBot.Controllers
@@ -74,13 +75,14 @@ namespace LineBot.Controllers
         /// <returns></returns>
         public IActionResult ManualNotification(int id)
         {
+            // 取得訂單資訊
             ReservationRequest reservationRequests = _googleSheets.GetReservation(id);
 
             // 取得司機資訊
             Driver driver = _googleSheets.GetDriverInfo(reservationRequests.Driver);
 
 
-            //通知乘客
+            // 通知乘客
             if (reservationRequests.MemberNotify.Length > 0)
             {
                 string message = string.Empty;
@@ -107,7 +109,7 @@ namespace LineBot.Controllers
             }
 
 
-            //通知司機
+            // 通知司機
             if(reservationRequests.DriverNotify.Length > 0)
             {
                 string message = string.Empty;
@@ -124,7 +126,16 @@ namespace LineBot.Controllers
                 _bot.PushMessage(driver.DriverLineId,message);
             }
 
-            return View(reservationRequests);
+
+            // 將整理出來的資料封裝進viewmodel 帶到view顯示
+            NotificationViewModel viewModel = new NotificationViewModel
+            {
+                ReservationRequest = reservationRequests,
+                Driver = driver
+            };
+
+
+            return View(viewModel);
         }
     }
 }
