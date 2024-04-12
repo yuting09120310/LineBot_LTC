@@ -419,7 +419,7 @@ namespace LineBot.Repository
 
                 // 設定要寫入的資料
                 List<object> rowData = new List<object> {
-                    driver.DriverId,
+                    driver.DriverId.ToString(),
                     driver.TeamId,
                     driver.LineId,
                     driver.Name,
@@ -429,7 +429,7 @@ namespace LineBot.Repository
                 };
 
                 // 指定寫入的範圍
-                string sRange = String.Format("{A}!A{1}:G{1}", range, values.Count + 1);
+                string sRange = String.Format("{0}!A{1}:G{1}", range, values.Count + 1);
 
                 // 創建 ValueRange 對象
                 ValueRange valueRange = new ValueRange
