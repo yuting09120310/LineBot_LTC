@@ -79,13 +79,20 @@ namespace LineBot.Controllers
             // 取得司機資訊
             Driver driver = _googleSheets.GetDriverInfo(reservationRequests.Driver);
 
+
             //通知乘客
             if (reservationRequests.MemberNotify.Length > 0)
             {
-                _bot.PushMessage(reservationRequests.UserId,
-                        @$"早安您好：
-您預約{reservationRequests.ServiceDate.ToString("MM/dd")}早上{reservationRequests.ServiceTime.ToString(@"hh\:mm")}到{reservationRequests.DropOffLocation}11:00回程
-已為您調配司機
+                string message = string.Empty;
+                message = @$"早安您好：
+您預約{reservationRequests.ServiceDate.ToString("MM/dd")}早上{reservationRequests.ServiceTime.ToString(@"hh\:mm")}到{reservationRequests.DropOffLocation}";
+
+                if(reservationRequests.ReturnServiceTime!= null)
+                {
+                    message += $"{reservationRequests.ReturnServiceTime.ToString()}回程";
+                }
+
+                message += @$"已為您調配司機
 司機資訊如下 ：
 隊編：{driver.TeamId}
 姓名：{driver.Name}
@@ -93,18 +100,28 @@ namespace LineBot.Controllers
 車號:{driver.CarNumber}
 電話:{driver.ContactNumber}
 若您時間上有提早或延後 麻煩提早半小時與司機聯繫
-我們儘量配合您時間");
+我們儘量配合您時間";
+
+
+                _bot.PushMessage(reservationRequests.UserId,message);
             }
 
 
             //通知司機
             if(reservationRequests.DriverNotify.Length > 0)
             {
-                _bot.PushMessage(driver.DriverLineId,
-                        @$"{reservationRequests.FullName}
+                string message = string.Empty;
+                message += $@"{reservationRequests.FullName}
 {reservationRequests.ContactPhoneNumber}
 {reservationRequests.PickupLocation}
-{reservationRequests.ServiceDate.ToString("MM/dd")}   {reservationRequests.ServiceTime.ToString(@"hh\:mm")}去{reservationRequests.DropOffLocation}{reservationRequests.MedicalPurpose} 11:00回");
+{reservationRequests.ServiceDate.ToString("MM/dd")}   {reservationRequests.ServiceTime.ToString(@"hh\:mm")}去{reservationRequests.DropOffLocation}{reservationRequests.MedicalPurpose}";
+
+                if (reservationRequests.ReturnServiceTime != null)
+                {
+                    message += $"{reservationRequests.ReturnServiceTime.ToString()}回程";
+                }
+
+                _bot.PushMessage(driver.DriverLineId,message);
             }
 
             return View(reservationRequests);
