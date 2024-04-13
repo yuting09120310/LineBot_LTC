@@ -37,7 +37,7 @@ namespace LineBot.Controllers
         [HttpPost]
         public ActionResult Create(Driver driver)
         {
-            try
+            if (ModelState.IsValid)
             {
                 _googleSheets.CreateDriverInfo(driver);
 
@@ -49,11 +49,10 @@ namespace LineBot.Controllers
 
                 // DriverResult
                 return RedirectToAction("DriverResult");
-
             }
-            catch
+            else
             {
-                return View();
+                return View(driver);
             }
         }
 
