@@ -11,14 +11,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
 
-// �`�JBot
+// 注入LineBot
 var channelAccessToken = builder.Configuration.GetConnectionString("channelAccessToken");
 builder.Services.AddSingleton<Bot>(provider =>
 {
     return new Bot(channelAccessToken);
 });
 
-// �`�J��}
+// 注入網址
 var webUrl = builder.Configuration.GetConnectionString("WebUrl");
 builder.Services.AddSingleton<string>(provider =>
 {
@@ -26,7 +26,7 @@ builder.Services.AddSingleton<string>(provider =>
 });
 
 
-// �`�JGoogle�A��
+// 注入google表單
 builder.Services.AddScoped<IGoogleSheets, GoogleSheetsRepository>();
 
 
