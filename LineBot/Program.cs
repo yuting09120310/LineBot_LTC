@@ -11,14 +11,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
 
-// ª`¤JBot
+// ï¿½`ï¿½JBot
 var channelAccessToken = builder.Configuration.GetConnectionString("channelAccessToken");
 builder.Services.AddSingleton<Bot>(provider =>
 {
     return new Bot(channelAccessToken);
 });
 
-// ª`¤Jºô§}
+// ï¿½`ï¿½Jï¿½ï¿½}
 var webUrl = builder.Configuration.GetConnectionString("WebUrl");
 builder.Services.AddSingleton<string>(provider =>
 {
@@ -26,7 +26,7 @@ builder.Services.AddSingleton<string>(provider =>
 });
 
 
-// ª`¤JGoogleªA°È
+// ï¿½`ï¿½JGoogleï¿½Aï¿½ï¿½
 builder.Services.AddScoped<IGoogleSheets, GoogleSheetsRepository>();
 
 
