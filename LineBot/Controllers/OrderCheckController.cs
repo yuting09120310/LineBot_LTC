@@ -30,18 +30,14 @@ namespace LineBot.Controllers
 
             foreach (ReservationRequest request in AllReservationRequests)
             {
-                if ((request.ServiceDate - DateTime.UtcNow.AddHours(8).Date.AddHours(0)).TotalDays < 3)
+                // 檢查前三天訂單並通知相應人員
+                DateTime threeDaysBefore = DateTime.UtcNow.AddHours(8).Date.AddDays(3); // 取得三天前的日期
+                if (request.ServiceDate.Date == threeDaysBefore)
                 {
-                    DateTime oneDayBefore = request.ServiceDate.AddDays(-1);
-                    DateTime today = DateTime.UtcNow.AddHours(8).Date.AddHours(0);
-
-                    if (today == oneDayBefore)
-                    {
-                        // 發送通知
-                        if (today == oneDayBefore)
-                        {
-                            _bot.PushMessage(_userId,
-                                @$"明天有一個重要的預約，請留意：
+                    // 發送通知
+                    _bot.PushMessage(_userId,
+                        @$"距離預約時間還有三天，請務必留意：
+訂單編號：{request.Id}
 訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
 個案大名：{request.FullName},
 上車地點：{request.PickupLocation},
@@ -50,8 +46,9 @@ namespace LineBot.Controllers
 服務項目：{request.ServiceType},
 備註：{request.Notes}");
 
-                            _bot.PushMessage(_admin,
-                                @$"明天有一個重要的預約，請留意：
+                    _bot.PushMessage(_admin,
+                        @$"距離預約時間還有三天，請留意：
+訂單編號：{request.Id}
 訂單時間：{request.ServiceDate.ToString("yyyy-MM-dd")} {request.ServiceTime},
 個案大名：{request.FullName},
 上車地點：{request.PickupLocation},
@@ -59,10 +56,8 @@ namespace LineBot.Controllers
 聯絡電話：{request.ContactPhoneNumber},
 服務項目：{request.ServiceType},
 備註：{request.Notes}");
-                        }
-                    }
-
                 }
+
             }
 
             return Ok();
@@ -120,7 +115,7 @@ namespace LineBot.Controllers
 
                 if (reservationRequests.ReturnServiceTime != null)
                 {
-                    message += $"{reservationRequests.ReturnServiceTime.ToString()}回程";
+                    message += $"{reservationRequests.ReturnServiceTime?.ToString(@"hh\:mm")}回程";
                 }
 
                 _bot.PushMessage(driver.LineId, message);
