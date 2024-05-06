@@ -82,7 +82,7 @@ namespace LineBot.Controllers
             {
                 string message = string.Empty;
                 message = @$"早安您好：
-您預約{reservationRequests.ServiceDate.ToString("MM/dd")}早上{reservationRequests.ServiceTime.ToString(@"hh\:mm")}到{reservationRequests.DropOffLocation}";
+您預約{reservationRequests.ServiceDate.ToString("MM/dd")} {reservationRequests.ServiceTime.ToString(@"hh\:mm")}到{reservationRequests.DropOffLocation}";
 
                 if(reservationRequests.ReturnServiceTime!= null)
                 {
