@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for ltclinebot on 2024-03-03T02:45:42+08:00
+# fly.toml app configuration file generated for linebot-ltc on 2024-06-11T11:02:41+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'ltclinebot'
+app = 'linebot-ltc'
 primary_region = 'nrt'
 
 [build]
